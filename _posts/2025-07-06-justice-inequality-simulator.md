@@ -22,7 +22,7 @@ Judicial outcomes shape lives, yet historical data show that race, gender, or so
 | Justice CSV (course data)  | ≈ 5,000  | free-text facts, first_party_winner         |
 
 ***Figure 1 – Class imbalance before resampling**  
-![Poster](/assets/poster.png)
+
 ---
 
 ### 3. Pre-processing
@@ -262,3 +262,5 @@ This project builds upon multiple data sources and foundational research papers,
 This blog originated as a project proposal for the Deep Generative Models class in the HFU Master’s programme.
 
 **Source code:** [https://github.com/ncozzarin/justice-inequality-sim](https://github.com/ncozzarin/justice-inequality-sim)
+
+![Poster](/docs/assets/poster.png)
