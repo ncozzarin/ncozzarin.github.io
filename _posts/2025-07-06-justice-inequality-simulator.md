@@ -22,7 +22,7 @@ Judicial outcomes shape lives, yet historical data show that race, gender, or so
 | Justice CSV (course data)  | ≈ 5,000  | free-text facts, first_party_winner         |
 
 ***Figure 1 – Class imbalance before resampling**  
-
+![Book logo](_docs/assets/poster.png)
 ---
 
 ### 3. Pre-processing
