@@ -191,9 +191,6 @@ acc_test  = accuracy_score(df_bal.label.iloc[test],  mlp.predict(X_std[test]))
 To understand model fairness and biases, we generate counterfactual examples—modifications of inputs that flip the predicted outcome. This helps highlight which features influence decisions and uncover potential discrimination.
 
 {% highlight python %}
-# The full counterfactual generator script is quite long.
-# Here's a simplified placeholder for the concept:
-
 def generate_counterfactual(instance, model, tokenizer, max_changes=3):
     """
     Generate counterfactuals by iteratively modifying tokens until prediction flips.
@@ -201,11 +198,8 @@ def generate_counterfactual(instance, model, tokenizer, max_changes=3):
     # Pseudocode placeholder: 
     # - Identify important tokens influencing prediction
     # - Modify or replace tokens within a limit (max_changes)
-    # - Check if prediction changes; if yes, return counterfactual
-    pass
+    # - Check if prediction changes; if yes, return counterfactual{% endhighlight %}
 
-# Usage example:
-# counterfactual_example = generate_counterfactual(sample_text, mlp, tok)
 **For the full script, please refer to the project repository.
 
 ---
@@ -224,11 +218,11 @@ def demographic_parity(y_true, y_pred, protected):
     p1 = y_pred[protected == 1].mean()
     return abs(p0 - p1)
 
-#### Example usage
+# Example usage
 race = df_bal.race.values           # Binary array indicating race group
 y_hat = mlp.predict(X_std)          # Predicted labels
 dp_gap = demographic_parity(df_bal.label.values, y_hat, race)
-print(f"Demographic Parity Gap: {dp_gap:.2f}")
+print(f"Demographic Parity Gap: {dp_gap:.2f}"){% endhighlight %}
 
 ---
 
