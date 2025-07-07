@@ -25,10 +25,10 @@ Judicial outcomes shape lives, yet historical data show that race, gender, or so
 
 **Figure 1 – Class imbalance before resampling**  
 
-
 ---
 
-###3. Pre-processing
+### 3. Pre-processing
+
 Before training the model, raw text data often requires cleaning to remove unwanted HTML tags, punctuation, and extra whitespace. This step ensures the model receives consistent, noise-free input. Additionally, the target variable is converted into a numeric binary label to facilitate supervised learning.
 
 
