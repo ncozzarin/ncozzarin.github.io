@@ -24,9 +24,14 @@ Judicial outcomes shape lives, yet historical data show that race, gender, or so
 | Justice CSV (course data)  | ≈ 5,000  | free-text facts, first_party_winner         |
 
 **Figure 1 – Class imbalance before resampling**  
-![Class imbalance](assets/2025-07-06-class-imbalance.png)
 
-3. Pre-processing
+
+---
+
+###3. Pre-processing
+Before training the model, raw text data often requires cleaning to remove unwanted HTML tags, punctuation, and extra whitespace. This step ensures the model receives consistent, noise-free input. Additionally, the target variable is converted into a numeric binary label to facilitate supervised learning.
+
+
 {% highlight python %}
 import re, nltk, pandas as pd
 TAG_RE = re.compile(r"<[^>]+>")
