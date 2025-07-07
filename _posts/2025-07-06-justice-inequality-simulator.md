@@ -50,7 +50,7 @@ df["label"] = (df["first_party_winner"]
 {% endhighlight %}
 
 💡 Figure 2 – Example cleaned record
-(A formatted <blockquote> can be added here when the dataset becomes public.)
+
 
 ---
 
