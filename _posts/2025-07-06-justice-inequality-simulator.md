@@ -4,9 +4,7 @@ date: 2025-07-06
 author: "Nicolas Cozzarin (@ncozzarin)"
 ---
 
-[Share on Twitter](#) | [Share on LinkedIn](#)
-
-## HFU Deep Generative Models — Project Report
+## HFU Deep Generative Models — Project Write up
 
 ### 1. Motivation
 
