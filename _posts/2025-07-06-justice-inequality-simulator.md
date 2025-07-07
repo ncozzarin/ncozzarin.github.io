@@ -51,7 +51,7 @@ df["label"] = (df["first_party_winner"]
 
 💡 Figure 2 – Example cleaned record
 (A formatted <blockquote> can be added here when the dataset becomes public.)
-
+---
 4. Balancing the data
 {% highlight python %}
 from sklearn.utils import resample
