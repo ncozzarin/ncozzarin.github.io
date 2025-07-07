@@ -26,3 +26,24 @@ Judicial outcomes shape lives, yet historical data show that race, gender, or so
 **Figure 1 – Class imbalance before resampling**  
 ![Class imbalance](assets/2025-07-06-class-imbalance.png)
 
+3. Pre-processing
+{% highlight python %}
+import re, nltk, pandas as pd
+TAG_RE = re.compile(r"<[^>]+>")
+PUNCT = str.maketrans("", "", r"""!"#$%&'()*+,-./:;<=>?@[]^_`{|}~""")
+
+def clean(html: str) -> str:
+"""Strip HTML, punctuation, collapse whitespace."""
+return re.sub(r"\s+", " ",
+TAG_RE.sub("", html or "").translate(PUNCT)).strip()
+
+df = pd.read_csv("justice.csv").dropna(subset=["facts", "first_party_winner"])
+df["text"] = df["facts"].map(clean)
+df["label"] = (df["first_party_winner"]
+.astype(str).str.lower()
+.map({"true":1,"false":0,"1":1,"0":0}))
+{% endhighlight %}
+
+💡 Figure 2 – Example cleaned record
+(A formatted <blockquote> can be added here when the dataset becomes public.)
+
