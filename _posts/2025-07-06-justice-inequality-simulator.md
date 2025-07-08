@@ -86,9 +86,9 @@ df_bal = pd.concat([majority, minority_up]).reset_index(drop=True)
 ---
 
 ### 5. Feature Extraction with Legal-BERT
-In this step, I convert the raw legal text descriptions (text) into dense numerical representations using Legal-BERT, a version of BERT pre-trained on legal corpora. These embeddings serve as input features to our classifier.
+In this step, I convert the raw legal text descriptions (text) into dense numerical representations using Legal-BERT, a version of BERT pre-trained on legal corpora. These embeddings serve as input features to the classifier.
 
-We use the hidden state of the [CLS] token as a compact representation of each text. The [CLS] vector is commonly used in classification tasks because it captures the overall semantics of the input.
+I use the hidden state of the [CLS] token as a compact representation of each text. The [CLS] vector is commonly used in classification tasks because it captures the overall semantics of the input.
 
 Batch processing is applied with GPU acceleration if available. The final output is a matrix of embeddings, one per legal case, which I save to disk as a NumPy .npy file for faster reuse in training.
 
@@ -158,7 +158,7 @@ val, test = train_test_split(tmp, test_size=0.5, random_state=42,
 ---
 
 ### 8. Model Architecture
-We design a simple Multi-Layer Perceptron (MLP) with three hidden layers to classify the BERT embeddings. The input layer takes vectors of size 768 (from Legal-BERT CLS embeddings), followed by hidden layers with 1024, 512, and 128 neurons respectively. The output layer uses a sigmoid activation for binary classification. Early stopping is used to prevent overfitting.
+I design a simple Multi-Layer Perceptron (MLP) with three hidden layers to classify the BERT embeddings. The input layer takes vectors of size 768 (from Legal-BERT CLS embeddings), followed by hidden layers with 1024, 512, and 128 neurons respectively. The output layer uses a sigmoid activation for binary classification. Early stopping is used to prevent overfitting.
 
 {% highlight python %}
 from sklearn.neural_network import MLPClassifier
@@ -195,7 +195,7 @@ plt.title("MLP Training Loss")
 plt.savefig("assets/2025-07-06-loss.png")
 {% endhighlight %}
 
-**We also evaluate accuracy on training, validation, and test sets to check for overfitting or underfitting.
+**I also evaluate accuracy on training, validation, and test sets to check for overfitting or underfitting.
 
 {% highlight python %}
 from sklearn.metrics import accuracy_score
