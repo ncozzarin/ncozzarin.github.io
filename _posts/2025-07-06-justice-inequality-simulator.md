@@ -54,6 +54,8 @@ df["label"] = (df["first_party_winner"]
 {% endhighlight %}
 
 Example cleaned record
+
+
 ![Figure 2](/docs/assets/factsclean.png)  
 
 ---
