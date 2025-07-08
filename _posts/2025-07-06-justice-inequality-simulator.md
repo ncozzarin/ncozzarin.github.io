@@ -21,7 +21,13 @@ Judicial outcomes shape lives, yet historical data show that race, gender, or so
 | U.S. Supreme Court (SCDB)  | ≈ 28,000 | issue, petitioner, lower-court direction    |
 | Justice CSV (course data)  | ≈ 5,000  | free-text facts, first_party_winner         |
 
-***Figure 1 – Class imbalance before resampling**  
+For the initial phase of this project, I chose the U.S. Supreme Court dataset because its fact descriptions were more detailed and concise, making it better suited for training a model to detect bias. However, other datasets could also be used, as long as they contain textual descriptions of the facts. In that case, the preprocessing steps should be adapted accordingly to fit the structure and content of the new data.
+
+https://www.kaggle.com/code/raghavkachroo/supreme-court-judgement-prediction
+
+
+***Figure 1 – Most frequent words**
+![Figure 1](/docs/assets/mostfrequentwords.png)  
 
 ---
 
