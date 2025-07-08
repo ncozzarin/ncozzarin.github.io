@@ -53,8 +53,8 @@ df["label"] = (df["first_party_winner"]
 .map({"true":1,"false":0,"1":1,"0":0}))
 {% endhighlight %}
 
-💡 Figure 2 – Example cleaned record
-
+Example cleaned record
+![Figure 2](/docs/assets/factsclean.png)  
 
 ---
 
