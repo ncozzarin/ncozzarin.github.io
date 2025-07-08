@@ -230,7 +230,10 @@ def generate_counterfactual(instance, model, tokenizer, max_changes=3):
 
 ---
 ### 11. Fairness Metrics
-To evaluate fairness, we measure demographic parity, which assesses whether the model predicts positive outcomes equally across protected groups. The demographic parity gap quantifies the absolute difference in positive prediction rates between groups.
+To assess the fairness of the model's predictions across demographic groups, we compute the demographic parity gap. This metric evaluates whether individuals from different protected groups (e.g., racial groups) have equal probabilities of receiving a positive prediction, regardless of their actual outcomes.
+
+Demographic parity is defined as the absolute difference between the positive prediction rates for each group. Formally, the gap is computed as:
+
 
 {% highlight python %}
 import numpy as np
