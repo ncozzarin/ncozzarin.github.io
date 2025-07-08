@@ -86,11 +86,11 @@ df_bal = pd.concat([majority, minority_up]).reset_index(drop=True)
 ---
 
 ### 5. Feature Extraction with Legal-BERT
-In this step, we convert the raw legal text descriptions (text) into dense numerical representations using Legal-BERT, a version of BERT pre-trained on legal corpora. These embeddings serve as input features to our classifier.
+In this step, I convert the raw legal text descriptions (text) into dense numerical representations using Legal-BERT, a version of BERT pre-trained on legal corpora. These embeddings serve as input features to our classifier.
 
 We use the hidden state of the [CLS] token as a compact representation of each text. The [CLS] vector is commonly used in classification tasks because it captures the overall semantics of the input.
 
-Batch processing is applied with GPU acceleration if available. The final output is a matrix of embeddings, one per legal case, which we save to disk as a NumPy .npy file for faster reuse in training.
+Batch processing is applied with GPU acceleration if available. The final output is a matrix of embeddings, one per legal case, which I save to disk as a NumPy .npy file for faster reuse in training.
 
 {% highlight python %}
 from transformers import AutoTokenizer, AutoModel
@@ -105,8 +105,8 @@ bert = AutoModel.from_pretrained(MODEL_ID).to(DEVICE).eval()
 @torch.no_grad()
 def embed(txts, batch=16, max_len=256):
 vecs = []
-for i in range(0, len(txts), batch):
-enc = tok(txts[i:i+batch],
+for I in range(0, len(txts), batch):
+enc = tok(txts[I:I+batch],
 padding=True, truncation=True,
 max_length=max_len,
 return_tensors="pt").to(DEVICE)
@@ -130,7 +130,7 @@ Figure 4 shows a 2-D t-SNE projection of 768-D Legal-BERT [CLS] embeddings: each
 ---
 
 ### 6. Normalisation
-After extracting embeddings from Legal-BERT, normalization is crucial to scale the features. Although BERT embeddings are roughly standardized due to LayerNorm, we amplify them by a factor (TEXT_GAIN = 5) to better integrate with any hand-crafted features added later. This step helps stabilize training and improves model convergence.
+After extracting embeddings from Legal-BERT, normalization is crucial to scale the features. Although BERT embeddings are roughly standardized due to LayerNorm, I amplify them by a factor (TEXT_GAIN = 5) to better integrate with any hand-crafted features added later. This step helps stabilize training and improves model convergence.
 
 {% highlight python %}
 from sklearn.preprocessing import StandardScaler
@@ -142,7 +142,7 @@ X_std = scaler.transform(X) * 5
 ---
 
 ### 7. Train / Validation / Test split
-Splitting the dataset into training, validation, and test sets is a fundamental step to evaluate model performance fairly. Here, we use stratified splitting to maintain the label distribution across all subsets. First, 60% of the data is reserved for training, and the remaining 40% is split equally between validation and testing.
+Splitting the dataset into training, validation, and test sets is a fundamental step to evaluate model performance fairly. Here, I use stratified splitting to maintain the label distribution across all subsets. First, 60% of the data is reserved for training, and the remaining 40% is split equally between validation and testing.
 
 {% highlight python %}
 from sklearn.model_selection import train_test_split
@@ -208,7 +208,7 @@ acc_test  = accuracy_score(df_bal.label.iloc[test],  mlp.predict(X_std[test]))
 ---
 
 ### 10. Counterfactual Generator
-To understand model fairness and biases, we generate counterfactual examples—modifications of inputs that flip the predicted outcome. This helps highlight which features influence decisions and uncover potential discrimination.
+To understand model fairness and biases, I generate counterfactual examples—modifications of inputs that flip the predicted outcome. This helps highlight which features influence decisions and uncover potential discrimination.
 
 {% highlight python %}
 def generate_counterfactual(instance, model, tokenizer, max_changes=3):
@@ -232,9 +232,9 @@ def generate_counterfactual(instance, model, tokenizer, max_changes=3):
 ### 11. Fairness Metrics
 Rather than assessing fairness through aggregated group metrics, this work evaluates model behavior using a counterfactual sensitivity approach. The methodology builds upon the idea that decisions should remain stable when sensitive attributes in the input text are altered.
 
-To test this, we define a mapping of sensitive word pairs (e.g., "he" ↔ "she", "black" ↔ "white", etc.), and use this to generate counterfactual versions of case descriptions by substituting such words and, optionally, additional terms with high influence on the model's output.
+To test this, I define a mapping of sensitive word pairs (e.g., "he" ↔ "she", "black" ↔ "white", etc.), and use this to generate counterfactual versions of case descriptions by substituting such words and, optionally, additional terms with high influence on the model's output.
 
-Each original input is processed to compute the prediction probability of a favorable outcome (i.e., the first party winning). Then, a counterfactual version of the text is created using the build_cf function. This version includes:
+Each original input is processed to compute the prediction probability of a favorable outcome (I.e., the first party winning). Then, a counterfactual version of the text is created using the build_cf function. This version includes:
 
 -Direct substitutions of sensitive tokens,
 -Forced substitutions of the top-k most influential tokens (based on local prediction impact),
