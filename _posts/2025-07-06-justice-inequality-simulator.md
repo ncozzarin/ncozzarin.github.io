@@ -281,9 +281,6 @@ This counterfactual analysis provides evidence of both robustness and fragility 
 |-------------------------|--------|
 | Accuracy (test)         | 0.78   |
 | ROC-AUC                 | 0.84   |
-| Demographic Parity Gap  | 0.07   |
-| → after counterfactual balance | 0.03   |
-
 ---
 
 ### 13. Discussion
