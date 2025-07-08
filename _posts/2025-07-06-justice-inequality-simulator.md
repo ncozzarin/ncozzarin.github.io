@@ -230,33 +230,34 @@ def generate_counterfactual(instance, model, tokenizer, max_changes=3):
 
 ---
 ### 11. Fairness Metrics
-To assess the fairness of the model's predictions across demographic groups, we compute the demographic parity gap. This metric evaluates whether individuals from different protected groups (e.g., racial groups) have equal probabilities of receiving a positive prediction, regardless of their actual outcomes.
+Rather than assessing fairness through aggregated group metrics, this work evaluates model behavior using a counterfactual sensitivity approach. The methodology builds upon the idea that decisions should remain stable when sensitive attributes in the input text are altered.
 
-Demographic parity is defined as the absolute difference between the positive prediction rates for each group. Formally, the gap is computed as:
+To test this, we define a mapping of sensitive word pairs (e.g., "he" ↔ "she", "black" ↔ "white", etc.), and use this to generate counterfactual versions of case descriptions by substituting such words and, optionally, additional terms with high influence on the model's output.
 
+Each original input is processed to compute the prediction probability of a favorable outcome (i.e., the first party winning). Then, a counterfactual version of the text is created using the build_cf function. This version includes:
 
-{% highlight python %}
-import numpy as np
+-Direct substitutions of sensitive tokens,
+-Forced substitutions of the top-k most influential tokens (based on local prediction impact),
+-Additional swaps until a predefined token-edit threshold is reached.
 
-def demographic_parity(y_true, y_pred, protected):
-    """
-    Calculate demographic parity gap:
-    |P(ŷ=1 | A=0) − P(ŷ=1 | A=1)|
-    """
-    p0 = y_pred[protected == 0].mean()
-    p1 = y_pred[protected == 1].mean()
-    return abs(p0 - p1)
+The difference in prediction probability before and after counterfactual modification quantifies the model's sensitivity to potentially biased content.
 
-# Example usage
-race = df_bal.race.values           # Binary array indicating race group
-y_hat = mlp.predict(X_std)          # Predicted labels
-dp_gap = demographic_parity(df_bal.label.values, y_hat, race)
-print(f"Demographic Parity Gap: {dp_gap:.2f}"){% endhighlight %}
+This method enables a fine-grained, local assessment of model fairness by identifying cases where small, meaningful changes in phrasing lead to significantly different decisions. It supports interpretability by showing which tokens contributed most to the shift in outcome.
 
 ---
 
 ### 12. Results
-After training and evaluating the model, we report key performance metrics. The accuracy and ROC-AUC show the predictive quality, while the demographic parity gap indicates bias level. Applying counterfactual balancing reduces bias significantly.
+To evaluate fairness, a manual inspection was conducted across multiple examples using the interactive loop. In many cases, counterfactual edits — especially substitutions of gendered, ethnic, or socioeconomic tokens — led to measurable changes in predicted probabilities. These variations indicate that the model may encode latent biases related to such features, even though they are not explicitly modeled.
+
+After generating and evaluating multiple counterfactuals:
+
+- Sensitive token substitutions often caused shifts in the predicted probability of up to 0.10–0.25.
+
+- These shifts were compounded by the influence of contextually related tokens.
+
+- Some cases showed no change, suggesting fairness in certain decision regions.
+
+This counterfactual analysis provides evidence of both robustness and fragility in the model's predictions, depending on input phrasing. While the model performs well overall, its sensitivity to specific wordings highlights the importance of further fairness-aware training or post-processing strategies.
 
 | Metric                  | Value |
 |-------------------------|--------|
@@ -282,7 +283,7 @@ Future work includes replacing the MLP with more advanced generative models like
 
 This project builds upon multiple data sources and foundational research papers, including:
 
-- COMPAS Dataset — ProPublica  
+- COMPAS Dataset — ProPublica
 - Supreme Court Database — Washington University, Olin School of Law  
 - Devlin et al., “BERT: Pre-training of Deep Bidirectional Transformers,” 2018  
 - CEUR-WS Vol-3841 Paper 5 — Counterfactual Explanations in Legal NLP  
@@ -290,6 +291,6 @@ This project builds upon multiple data sources and foundational research papers,
 
 This blog originated as a project proposal for the Deep Generative Models class in the HFU Master’s programme.
 
-**Source code:** [https://github.com/ncozzarin/justice-inequality-sim](https://github.com/ncozzarin/justice-inequality-sim)
+**Source code:** [(https://colab.research.google.com/drive/1vRHQOD1OUOzySDsNfvsINIWz_LFxucYV?usp=sharing)](https://colab.research.google.com/drive/1vRHQOD1OUOzySDsNfvsINIWz_LFxucYV?usp=sharing)]
 
 ![Poster](/docs/assets/poster.png)
