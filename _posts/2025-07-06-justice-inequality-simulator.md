@@ -53,7 +53,7 @@ df["label"] = (df["first_party_winner"]
 .map({"true":1,"false":0,"1":1,"0":0}))
 {% endhighlight %}
 
-Example cleaned record
+**Example cleaned record
 
 
 ![Figure 2](/docs/assets/factsclean.png)  
@@ -80,6 +80,8 @@ df_bal = pd.concat([majority, minority_up]).reset_index(drop=True)
 
 
 Figure 3 – Balanced class histogram
+
+![Figure 3](/docs/assets/balancedCases.png)  
 
 ---
 
