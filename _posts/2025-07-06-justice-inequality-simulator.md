@@ -211,14 +211,32 @@ acc_test  = accuracy_score(df_bal.label.iloc[test],  mlp.predict(X_std[test]))
 To understand model fairness and biases, I generate counterfactual examples—modifications of inputs that flip the predicted outcome. This helps highlight which features influence decisions and uncover potential discrimination.
 
 {% highlight python %}
-def generate_counterfactual(instance, model, tokenizer, max_changes=3):
-    """
-    Generate counterfactuals by iteratively modifying tokens until prediction flips.
-    """
-    # Pseudocode placeholder: 
-    # - Identify important tokens influencing prediction
-    # - Modify or replace tokens within a limit (max_changes)
-    # - Check if prediction changes; if yes, return counterfactual{% endhighlight %}
+def build_cf(i):
+    w=toks(texts[i]); changed=set(); sens=[]
+    impacts=impact_map(i)
+    # 1) swap sensitive tokens (skip no-ops)
+    for p,t in enumerate(w):
+        if t.lower() in SENSITIVE_MAP:
+            new=subst(t)
+            if new!=t:
+                w[p]=new; changed.add(p); sens.append((t,new))
+    # 2) force TOP_FORCE impact swaps
+    imp_sorted=sorted(impacts.items(), key=lambda x:x[1], reverse=True)
+    forced=0
+    for p,_ in imp_sorted:
+        if forced>=TOP_FORCE: break
+        if p not in changed:
+            new=subst(w[p])
+            if new!=w[p]:
+                w[p]=new; changed.add(p); forced+=1
+    # 3) continue until TOP_K edits
+    for p,_ in imp_sorted:
+        if len(changed)>=min(TOP_K,len(w)): break
+        if p not in changed:
+            new=subst(w[p])
+            if new!=w[p]:
+                w[p]=new; changed.add(p)
+    return " ".join(w), changed, sens, impacts{% endhighlight %}
 
 
 #### Counterfactual Example
