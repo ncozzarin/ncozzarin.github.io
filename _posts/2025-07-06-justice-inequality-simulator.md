@@ -53,7 +53,7 @@ df["label"] = (df["first_party_winner"]
 .map({"true":1,"false":0,"1":1,"0":0}))
 {% endhighlight %}
 
-**Example cleaned record
+#### Example cleaned record
 
 
 ![Figure 2](/docs/assets/factsclean.png)  
@@ -79,7 +79,7 @@ df_bal = pd.concat([majority, minority_up]).reset_index(drop=True)
 {% endhighlight %}
 
 
-Figure 3 – Balanced class histogram
+#### Balanced class histogram
 
 ![Figure 3](/docs/assets/balancedCases.png)  
 
@@ -119,7 +119,13 @@ np.save("legal_cls.npy", X) # cache
 {% endhighlight %}
 
 
-Figure 4 – t-SNE visualization of [CLS] embeddings colored by class label
+#### t-SNE visualization of [CLS] embeddings colored by class label
+
+![Figure 4](/docs/assets/tsne.png)  
+
+
+Figure 4 shows a 2-D t-SNE projection of 768-D Legal-BERT [CLS] embeddings: each dot is a case, positioned so nearby points share similar semantics in the original space; colors mark “first-party loses” vs “wins,” letting you see at a glance how well the pre-trained embeddings separate the two outcomes.
+
 
 ---
 
