@@ -220,6 +220,12 @@ def generate_counterfactual(instance, model, tokenizer, max_changes=3):
     # - Modify or replace tokens within a limit (max_changes)
     # - Check if prediction changes; if yes, return counterfactual{% endhighlight %}
 
+
+#### Counterfactual Example
+
+![Figure 5](/docs/assets/counterfactual.png)  
+
+
 **For the full script, please refer to the project repository.
 
 ---
