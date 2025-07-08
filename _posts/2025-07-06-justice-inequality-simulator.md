@@ -176,6 +176,10 @@ mlp = MLPClassifier(hidden_layer_sizes=(1024, 512, 128),
 mlp.fit(X_std[train], df_bal.label.iloc[train])
 {% endhighlight %}
 
+#### Architecture
+
+![Figure 5](/docs/assets/archi.png)  
+
 ---
 
 ### 9. Training Diagnostics
